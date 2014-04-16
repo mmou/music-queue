@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/lib/semantic.min.css" />
+  <link href='http://fonts.googleapis.com/css?family=Lato:100,200,300,400' rel='stylesheet' type='text/css'>
+
+
+</head>
+
+<body>
+  <div id="main">
+  </div>
+
+  <!-- search dimmer -->
+  <div id="search-dimmer" class="ui dimmer">
+    <div class="content">
+      <div class="center">
+      </div>
+    </div>
+  </div>
+
+  <!-- load dimmer -->
+  <div id="loading" class="ui active inverted dimmer">
+    <div class="ui text loader"><br>Loading...</div>
+  </div>
+
+
+  <script type="text/template" id="ControlsTemplate">
+    <div>
+    <h1> musiQ</h1>
+
+      <div id="controls">
+        <i id="prev" class="step backward link icon"></i>
+        <i id="state" class="big play link icon"></i>
+        <i id="next" class="step forward link icon"></i>
+      </div>
+    </div>
+    <div id="music-queue"></div>
+    <div id="queue-add">
+    <i id="add" class="large add link icon"></i>
+    </div>
+  </script>
+
+  <script type="text/template" id="SearchSongControlsTemplate">
+    <div class="ui icon input">
+      <input type="text" placeholder="Search...">
+      <i class="search link icon" id="search"></i>
+    </div>
+  </script>
+
+  <script type="text/template" id="MusicQueueTemplate">
+    <table class="ui padded table segment">
+<!--      <thead>
+        <tr><th>Track</th>
+        <th>Artist</th>
+        <th>Album</th>
+      </tr></thead> -->
+      <tbody id="tracks">
+        <% _.each(tracks, function(t) { %>
+            <tr data-tlid=<%= t.attributes.tlid %> data-uri=<%= t.attributes.uri %>>
+              <td><%= t.attributes.title %></td>
+              <td><%= t.attributes.artist %></td>
+              <td><%= t.attributes.album %></td>
+            </tr>
+        <%    }) %>
+
+      </tbody>
+    </table>
+
+  </script>
+
+
+<script type="text/template" id="SearchTemplate">
+  <h3> search results for '<%= $('#queue-add input').val() %>':</h3>
+  <div id="search-results"></div>
+  <i id="add-tracks" class="large add link icon"></i>
+</script>
+
+<script type="text/template" id="SearchResultsTemplate">
+  <table class="ui basic inverted table segment">
+    <thead>
+      <tr><th>Track</th>
+      <th>Artist</th>
+      <th>Album</th>
+    </tr></thead>
+    <tbody id="search-tracks">
+      <% _.each(tracks, function(t) { %>
+          <tr data-uri=<%= t.attributes.uri %>>
+            <td><%= t.attributes.title %></td>
+            <td><%= t.attributes.artist %></td>
+            <td><%= t.attributes.album %></td>
+          </tr>
+      <%    }) %>
+    </tbody>
+  </table>
+</script>
+
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/js/lib/underscore.js"></script>
+  <script type="text/javascript" src="assets/js/lib/backbone.js"></script>
+  <script type="text/javascript" src="/mopidy/mopidy.js"></script>
+  <script type="text/javascript" src="assets/js/lib/semantic.js"></script>  
+  <script type="text/javascript" src="assets/js/main.js"></script>  
+
+</body>
+
+</html>

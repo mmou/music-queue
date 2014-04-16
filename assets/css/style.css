@@ -1,0 +1,49 @@
+html,
+body {
+  font: 15px Lato, Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  background-color: white;
+  height: 100%;
+  padding: 0;
+  margin: 0; }
+
+#main {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  height: 500px;
+  background-color: white;
+  border-color: #474545;
+  border-width: 1px; }
+  #main h1 {
+    font: 2.5em 'Lato', sans-serif;
+    font-weight: 100; }
+  #main #controls {
+    text-align: center; }
+    #main #controls i {
+      margin: 8px !important; }
+  #main #music-queue {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: 80%;
+    overflow: scroll;
+    padding: 10px; }
+
+#queue-add {
+  text-align: center; }
+
+#search-results {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 800px;
+  height: 80%;
+  overflow: scroll;
+  text-align: left; }
+
+table {
+  margin: 20px; }
+
+#playing {
+  font-weight: bold; }

@@ -1,0 +1,70 @@
+$font-stack: Lato, Helvetica, Arial, sans-serif;
+$background-color: #FFFFFF;
+
+//rgba(190, 207, 60, 0.68)
+
+html,
+body {
+    font: 15px $font-stack;
+    font-weight: 300;
+    background-color: $background-color;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+#main {
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 500px;
+    background-color: $background-color;
+    border-color: rgb(71, 69, 69);
+    border-width: 1px;
+
+    h1 {
+        font: 2.5em 'Lato', sans-serif;
+        font-weight: 100;
+    }
+
+    #controls {
+        text-align: center;
+
+        i {
+            margin: 8px!important;
+        }
+    }
+
+    #music-queue {
+        margin-top: 20px;
+        margin-bottom: 20px; 
+        max-height:80%;
+        overflow:scroll;
+        padding: 10px;   
+    }
+
+}
+
+
+#queue-add {
+    text-align: center;
+}
+
+#search-results {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width:800px;
+    height:80%;
+    overflow: scroll;   
+    text-align: left; 
+}
+
+table {
+    margin: 20px;
+}
+
+#playing {
+    font-weight: bold;
+}
