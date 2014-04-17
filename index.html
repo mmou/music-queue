@@ -23,31 +23,40 @@
 
   <!-- load dimmer -->
   <div id="loading" class="ui active inverted dimmer">
-    <div class="ui text loader"><br>Loading...</div>
+    <div class="ui text loader"></div>
   </div>
 
 
   <script type="text/template" id="ControlsTemplate">
-    <div>
-    <h1> musiQ</h1>
-
-      <div id="controls">
-        <i id="prev" class="step backward link icon"></i>
-        <i id="state" class="big play link icon"></i>
-        <i id="next" class="step forward link icon"></i>
+    <div id="controls">
+      <div class="ui center middle aligned three column grid">
+        <div class="row">
+          <div class="column" style="">
+              <h1> musiQ</h1>
+          </div>
+          <div class="two wide column" style="">
+            <div id="queue-add" class="ui icon input">
+              <input type="text" placeholder="">
+              <i id="search" class="search link icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="column">
+            <i id="volume" class="large volume down link icon"></i>
+          </div>
+          <div class="column">
+            <i class="large step backward link icon" style="visibility: hidden"></i>
+            <i id="state" class="big play link icon"></i>
+            <i id="next" class="large step forward link icon"></i>
+          </div>
+          <div class="column">
+            <i id="clear" class="large remove circle link icon"></i>
+          </div>
+        </div>
       </div>
     </div>
     <div id="music-queue"></div>
-    <div id="queue-add">
-    <i id="add" class="large add link icon"></i>
-    </div>
-  </script>
-
-  <script type="text/template" id="SearchSongControlsTemplate">
-    <div class="ui icon input">
-      <input type="text" placeholder="Search...">
-      <i class="search link icon" id="search"></i>
-    </div>
   </script>
 
   <script type="text/template" id="MusicQueueTemplate">
@@ -74,7 +83,11 @@
 
 <script type="text/template" id="SearchTemplate">
   <h3> search results for '<%= $('#queue-add input').val() %>':</h3>
-  <div id="search-results"></div>
+  <div id="search-results">
+    <div id="searching" class="ui active dimmer">
+      <div class="ui text loader"></div>
+    </div>  
+  </div>
   <i id="add-tracks" class="large add link icon"></i>
 </script>
 
@@ -103,7 +116,10 @@
   <script type="text/javascript" src="assets/js/lib/backbone.js"></script>
   <script type="text/javascript" src="/mopidy/mopidy.js"></script>
   <script type="text/javascript" src="assets/js/lib/semantic.js"></script>  
-  <script type="text/javascript" src="assets/js/main.js"></script>  
+  <script type="text/javascript" src="assets/js/index.js"></script>  
+  <script type="text/javascript" src="assets/js/models/models.js"></script>  
+  <script type="text/javascript" src="assets/js/views/search.js"></script>
+  <script type="text/javascript" src="assets/js/views/queue.js"></script>      
 
 </body>
 

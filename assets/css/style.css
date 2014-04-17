@@ -8,26 +8,21 @@ body {
   margin: 0; }
 
 #main {
-  margin-left: auto;
-  margin-right: auto;
-  width: 500px;
+  margin: auto;
+  width: 550px;
   height: 500px;
-  background-color: white;
-  border-color: #474545;
-  border-width: 1px; }
+  background-color: white; }
   #main h1 {
     font: 2.5em 'Lato', sans-serif;
     font-weight: 100; }
   #main #controls {
-    text-align: center; }
-    #main #controls i {
-      margin: 8px !important; }
-  #main #music-queue {
     margin-top: 20px;
-    margin-bottom: 20px;
-    max-height: 80%;
-    overflow: scroll;
-    padding: 10px; }
+    text-align: center; }
+  #main #music-queue {
+    margin-top: 40px;
+    margin-bottom: 40px; }
+    #main #music-queue .active {
+      font-weight: bold; }
 
 #queue-add {
   text-align: center; }
@@ -41,9 +36,3 @@ body {
   height: 80%;
   overflow: scroll;
   text-align: left; }
-
-table {
-  margin: 20px; }
-
-#playing {
-  font-weight: bold; }

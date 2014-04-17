@@ -1,26 +1,63 @@
+var mopidy;
 $(document).ready(function() {
-	var mopidy = new Mopidy({
-    	webSocketUrl: "ws://localhost:6680/mopidy/ws/"
-	});
+    mopidy = new Mopidy({
+        webSocketUrl: "ws://localhost:6680/mopidy/ws/"
+    });
 
-	getPlaylists(mopidy);
+    mopidy.on("state:online", function () {
+        $('#loading').remove();
+        mopidy.tracklist.setConsume(true);
+        updateQueue();
+        updateState();
+    });
 
-	$('#refresh').click(getPlaylists(mopidy));
-})
+    mopidy.on("event:playbackStateChanged", function(data) {
+        updateState();
+    });
 
-function getPlaylists(mopidy) {
-	mopidy.on("state:online", function () {
-		mopidy.playlists.getPlaylists(false).then(processPlaylists, console.error);
-	});	
-}
+    mopidy.on("event:tracklistChanged", function(data) {
+        updateQueue();
+        updateState();        
+    });
+});
 
-function processPlaylists(result) {
-    var processedResult = "loading..."
-    if (!result || result == '') {
-    	processedResult = "playlists failed to load";
-    }
-	processedResult = _.map(result, function(p){ return p.name; });
-	console.log(processedResult);
-    $('#playlists #list').append(processedResult);
+// refresh music queue
+var updateQueue = function() {
+    mopidy.tracklist.getTlTracks().then(function(tlTracks) {
+        musicQueueView.collection.reset(
+            _.map(tlTracks, function(t){
+                return new TrackModel({
+                    tlid: t.tlid,
+                    uri: t.track.uri,
+                    title: t.track.name,
+                    artist: t.track.artists[0].name,
+                    album: t.track.album.name,
+                    length: t.track.length,
+                    timestamp: Date.now()      
+                });
+            }));
+        musicQueueView.render();
+        controlsView.updateState();            
+    });
+};
 
-}
+// refresh controls and 'currently playing'
+var updateState = function() {
+    mopidy.playback.getState().then(function(state) {
+        console.log(state);
+        if (state == "stopped") {
+            $('#state').removeClass('pause').addClass('play');
+            if ($('#tracks tr:first').length > 0) {
+                var track = $('#tracks tr:first');
+                track.removeClass('active');
+            }
+        } else if (state == "paused") {
+            $('#state').removeClass('pause').addClass('play');
+        } else if (state =="playing") {
+            var track = $('#tracks tr:first');
+            track.addClass('active');
+            $('#state').removeClass('play').addClass('pause');
+        } 
+    })
+};
+

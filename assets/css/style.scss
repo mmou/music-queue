@@ -14,13 +14,10 @@ body {
 }
 
 #main {
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
+    margin: auto;
+    width: 550px;
     height: 500px;
     background-color: $background-color;
-    border-color: rgb(71, 69, 69);
-    border-width: 1px;
 
     h1 {
         font: 2.5em 'Lato', sans-serif;
@@ -28,19 +25,18 @@ body {
     }
 
     #controls {
+        margin-top: 20px;
         text-align: center;
-
-        i {
-            margin: 8px!important;
-        }
     }
 
     #music-queue {
-        margin-top: 20px;
-        margin-bottom: 20px; 
-        max-height:80%;
-        overflow:scroll;
-        padding: 10px;   
+        margin-top: 40px;
+        margin-bottom: 40px;
+
+        .active {
+            font-weight: bold;
+        }
+
     }
 
 }
@@ -59,12 +55,4 @@ body {
     height:80%;
     overflow: scroll;   
     text-align: left; 
-}
-
-table {
-    margin: 20px;
-}
-
-#playing {
-    font-weight: bold;
 }
