@@ -1,38 +1,92 @@
-html,
-body {
+html {
   font: 15px Lato, Helvetica, Arial, sans-serif;
   font-weight: 300;
   background-color: white;
   height: 100%;
   padding: 0;
   margin: 0; }
-
-#main {
-  margin: auto;
-  width: 550px;
-  height: 500px;
-  background-color: white; }
-  #main h1 {
-    font: 2.5em 'Lato', sans-serif;
-    font-weight: 100; }
-  #main #controls {
-    margin-top: 20px;
+  html #main {
+    margin: auto;
+    width: 500px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    background-color: white; }
+    html #main h1 {
+      font: 1.7em 'Lato', sans-serif;
+      font-weight: 200;
+      color: rgba(0, 53, 228, 0.6); }
+    html #main #controls {
+      margin-top: 40px;
+      margin-bottom: 30px;
+      width: 100%;
+      height: 100%; }
+      html #main #controls i#search {
+        margin: 0 .25em 0 0 !important; }
+      html #main #controls #exp.row {
+        margin: 0px;
+        padding: 0px; }
+      html #main #controls #exp .column {
+        height: 20px; }
+    html #main #footer #clear-content {
+      text-align: right; }
+      html #main #footer #clear-content #clear-exp {
+        margin-right: 5px; }
+      html #main #footer #clear-content #clear {
+        float: right; }
+    html #main #music-queue {
+      margin-top: 40px;
+      margin-bottom: 20px; }
+      html #main #music-queue #playing {
+        font-weight: bold;
+        color: white;
+        background-color: rgba(0, 53, 228, 0.6); }
+      html #main #music-queue td.subtext {
+        font-size: 13px; }
+      html #main #music-queue td.remove-cell {
+        padding-left: 0px;
+        padding-right: 0px; }
+        html #main #music-queue td.remove-cell .remove-track {
+          width: 35px;
+          padding-left: 0;
+          opacity: 0.1; }
+      html #main #music-queue .remove.circle {
+        opacity: 0.7; }
+  html #queue-add {
     text-align: center; }
-  #main #music-queue {
-    margin-top: 40px;
-    margin-bottom: 40px; }
-    #main #music-queue .active {
-      font-weight: bold; }
-
-#queue-add {
-  text-align: center; }
-
-#search-results {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 800px;
-  height: 80%;
-  overflow: scroll;
-  text-align: left; }
+  html #search-dimmer {
+    overflow: scroll; }
+    html #search-dimmer .center {
+      vertical-align: baseline !important;
+      padding: 40px;
+      width: 800px;
+      margin: auto; }
+      html #search-dimmer .center #search-controls {
+        text-align: end; }
+        html #search-dimmer .center #search-controls input {
+          font-family: Lato, Helvetica, Arial, sans-serif;
+          font-weight: 300; }
+        html #search-dimmer .center #search-controls #add-tracks {
+          float: right; }
+        html #search-dimmer .center #search-controls #selected-count {
+          height: 60px; }
+      html #search-dimmer .center #search-results {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 800px;
+        height: 60%;
+        text-align: left; }
+        html #search-dimmer .center #search-results .ui.accordion {
+          width: 90% !important;
+          margin: auto; }
+          html #search-dimmer .center #search-results .ui.accordion .table {
+            width: 90% !important;
+            margin: auto; }
+            html #search-dimmer .center #search-results .ui.accordion .table .hover {
+              background-color: rgba(0, 53, 228, 0.3); }
+            html #search-dimmer .center #search-results .ui.accordion .table .selected {
+              background-color: rgba(0, 53, 228, 0.6);
+              color: white; }
+  html .table {
+    border-radius: 1px !important; }

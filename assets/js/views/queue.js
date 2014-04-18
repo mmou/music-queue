@@ -16,16 +16,46 @@ var ControlsView = Backbone.View.extend({
     },
 
     events: {
+//        "mouseenter #search": "hoverAddIcon",
+//        "mouseout #search": "hoverAddIcon",        
+        "mouseenter #clear": "hoverClearIcon",
+        "mouseout #clear": "hoverClearIcon",        
+        "mouseenter .remove-track": "hoverInRemoveIcon",
+        "mouseout .remove-track": "hoverOutRemoveIcon",
+        "click .remove-track": "removeTrack",        
         "click #state" : "changeState",
         "click #next": "nextTrack",
         "click #clear": "clearQueue",
-        "click #search" : "search"
+        "click #search": "switchSearchView"
+    },
+
+//    hoverAddIcon: function(event) {
+//        if ($(event.target).hasClass('add')) {
+//            $(event.target).removeClass("add").addClass("search")
+//        } else {
+//            $(event.target).removeClass("search").addClass("add")            
+//        }
+//    },
+
+    hoverAddIcon: function(event) {
+        $('#add-exp').fadeToggle(300);
+    },
+
+    hoverClearIcon: function(event) {
+        $('#clear-exp').fadeToggle(300);
+    },
+
+    hoverInRemoveIcon: function(event) {
+        $(event.target).fadeTo(300, 0.7);
+    },
+
+    hoverOutRemoveIcon: function(event) {
+        $(event.target).fadeTo(200, 0.1);
     },
 
     // TODO: clean up playback tls referral
     changeState: function(event) {
         mopidy.playback.getState().then(function(state) {
-            console.log(state);
             if (state == "stopped") {
                 if ($('#tracks tr:first').length > 0) {
                     var track = $('#tracks tr:first'); 
@@ -38,42 +68,28 @@ var ControlsView = Backbone.View.extend({
                     })
                 } 
             } else if (state == "paused") {
-                mopidy.playback.resume();                
+                mopidy.playback.resume();              
             } else if (state =="playing") {
                 mopidy.playback.pause();
             } 
         })
     },
 
+    removeTrack: function(event) {
+        mopidy.tracklist.remove({'tlid': [$(event.target).parent().parent().data('tlid')]});
+    },
+
     nextTrack: function(event) {
-        var track = $("#tracks .active"); 
-        track.removeClass('active');
-        mopidy.playback.next();
+        mopidy.tracklist.remove({'tlid': [$("#tracks tr:first").data('tlid')]});
     },
 
     clearQueue: function(event) {
         mopidy.tracklist.clear();
     },
 
-    search: function(event) {
-        searchView.render().search();
+    switchSearchView: function(event) {
+        searchView.render();
     }
 });
-
-var MusicQueueView = Backbone.View.extend({
-	template: _.template($('#MusicQueueTemplate').html()),
-    collection: new TrackCollection(),
-	el: "#music-queue",
-
-    render:function () {
-        $(this.el).html(this.template({
-            tracks: this.collection.models
-        }));
-        return this;
-    }
-});
-
-
 
 var controlsView = new ControlsView();
-var musicQueueView = new MusicQueueView({collection: trackCollection});

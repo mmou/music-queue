@@ -14,7 +14,7 @@
   </div>
 
   <!-- search dimmer -->
-  <div id="search-dimmer" class="ui dimmer">
+  <div id="search-dimmer" class="ui inverted dimmer">
     <div class="content">
       <div class="center">
       </div>
@@ -28,86 +28,212 @@
 
 
   <script type="text/template" id="ControlsTemplate">
-    <div id="controls">
-      <div class="ui center middle aligned three column grid">
-        <div class="row">
-          <div class="column" style="">
-              <h1> musiQ</h1>
-          </div>
-          <div class="two wide column" style="">
-            <div id="queue-add" class="ui icon input">
-              <input type="text" placeholder="">
-              <i id="search" class="search link icon"></i>
-            </div>
-          </div>
+    <h1> musiQ</h1>
+    <div id="controls" class="ui center middle aligned three column grid">
+      <div class="equal height row">
+        <div class="column">
+          <i id="volume" class="large volume down link icon" style="visibility: hidden">></i>
         </div>
-        <div class="row">
-          <div class="column">
-            <i id="volume" class="large volume down link icon"></i>
-          </div>
-          <div class="column">
-            <i class="large step backward link icon" style="visibility: hidden"></i>
-            <i id="state" class="big play link icon"></i>
-            <i id="next" class="large step forward link icon"></i>
-          </div>
-          <div class="column">
-            <i id="clear" class="large remove circle link icon"></i>
-          </div>
+        <div class="column">
+          <i class="large step backward link icon" style="visibility: hidden"></i>
+          <i id="state" class="big play link icon"></i>
+          <i id="next" class="large step forward link icon"></i>
+        </div>
+        <div class="column">
+          <i id="search" class="large add link icon"></i>
         </div>
       </div>
+      <div id="exp" class="equal height row">
+        <div class="column">
+        </div>
+        <div class="column">
+        </div>
+        <div class="column">
+          <span hidden id="add-exp"> add tracks</span>          
+        </div>
+      </div>      
     </div>
     <div id="music-queue"></div>
   </script>
 
   <script type="text/template" id="MusicQueueTemplate">
     <table class="ui padded table segment">
-<!--      <thead>
-        <tr><th>Track</th>
-        <th>Artist</th>
-        <th>Album</th>
-      </tr></thead> -->
       <tbody id="tracks">
         <% _.each(tracks, function(t) { %>
-            <tr data-tlid=<%= t.attributes.tlid %> data-uri=<%= t.attributes.uri %>>
-              <td><%= t.attributes.title %></td>
-              <td><%= t.attributes.artist %></td>
-              <td><%= t.attributes.album %></td>
+            <tr data-tlid=<%= t.tlid %> data-uri=<%= t.track.uri %>>
+              <td>
+                <%= t.track.name %>
+              </td>
+              <td class="subtext">
+                <% _.each(t.track.artists, function(a) { %> 
+                  <%= a.name %><br>
+                  <% }) %>
+              </td>
+              <td class="subtext"><%= t.track.album.name %></td>
+              <td class="remove-cell">
+                  <i class="remove-track small remove link icon"></i>
+              </td>              
             </tr>
         <%    }) %>
-
       </tbody>
     </table>
+
+
+    <div id="footer" class="ui center middle aligned three column grid">
+      <div class="equal height row">
+        <div class="column">
+        </div>
+        <div id="track-count" class="column subtext">
+          <%= tracks.length %> tracks
+        </div>
+        <div id="clear-content" class="column">
+          <span hidden id="clear-exp"> clear queue</span> <i id="clear" class="large remove circle link icon"></i>
+        </div>
+      </div>
+    </div>
 
   </script>
 
 
 <script type="text/template" id="SearchTemplate">
-  <h3> search results for '<%= $('#queue-add input').val() %>':</h3>
-  <div id="search-results">
-    <div id="searching" class="ui active dimmer">
-      <div class="ui text loader"></div>
-    </div>  
+  <div id="search-controls" class="ui center middle aligned two column grid">
+    <div class="equal height row">
+      <div class="column">
+        <div id="queue-add" class="ui icon input">
+          <input type="text" placeholder="let's listen to...">
+          <i id="search" class="search link icon"></i>
+        </div>      
+      </div>
+      <div class="column">
+        <div id="search-controls" class="ui two column grid">        
+          <div class="middle aligned equal height row">
+            <div class="column">
+              <i id="add-tracks" class="large add link icon"></i>
+            </div>
+            <div id="selected-count" class="column">
+            </div>
+          </div>
+        </div>
+    </div>
   </div>
-  <i id="add-tracks" class="large add link icon"></i>
+  <div id="search-results">
+    <div class="ui text loader"></div>
+  </div>
 </script>
 
+<script type="text/template" id="SelectedCountTemplate">
+  <div hidden id="selected-count-content">
+    <%  if (selected.artists) { %>
+      <br><%= selected.artists %> artists' tracks
+    <%  } %>
+    <%  if (selected.albums) { %>
+      <br><%= selected.albums %> albums' tracks
+    <%  } %>
+    <%  if (selected.tracks) { %>
+      <br><%= selected.tracks %> tracks
+    <%  } %> 
+  </div>     
+</script>
+
+
 <script type="text/template" id="SearchResultsTemplate">
-  <table class="ui basic inverted table segment">
-    <thead>
-      <tr><th>Track</th>
-      <th>Artist</th>
-      <th>Album</th>
-    </tr></thead>
-    <tbody id="search-tracks">
-      <% _.each(tracks, function(t) { %>
-          <tr data-uri=<%= t.attributes.uri %>>
-            <td><%= t.attributes.title %></td>
-            <td><%= t.attributes.artist %></td>
-            <td><%= t.attributes.album %></td>
-          </tr>
-      <%    }) %>
-    </tbody>
-  </table>
+  <div hidden id="search-all" class="ui basic accordion">
+    <% if (!_.some(results, function(r) {return r.artists || r.albums || r.tracks})) { %>
+      <center>no results found!</center>
+    <% } else { %>
+      <center><h4>search results</4></center>      
+      <div class="ui divider"></div>
+    <% _.each(results, function(r) { %>
+      <% if (r.artists || r.albums || r.tracks) { %>
+
+      <div class="title">
+        <i class="dropdown icon"></i>
+        <%= r.uri.substring(0, r.uri.indexOf(":")) %>
+      </div>
+      <div id="source-<%= r.uri %>" class="content">
+
+
+        <div id="search-source" class="ui basic accordion">
+          <% if (r.artists) { %>
+            <div class="title">
+              <i class="dropdown icon"></i>
+              artists
+            </div>
+            <div class="content">
+              <table data-type="artists" class="ui table segment">
+                <thead>
+                  <th>Artist</th>
+                </tr></thead>
+                <tbody id="search-artists">
+                  <% _.each(r.artists, function(ar) { %>
+                      <tr data-uri=<%= ar.uri %>>
+                        <td><%= ar.name %></td>
+                      </tr>
+                  <%    }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+
+          <% if (r.albums) { %>
+            <div class="title">
+              <i class="dropdown icon"></i>
+              albums
+            </div>
+            <div class="content">
+              <table data-type="albums" class="ui table segment">
+                <thead>
+                  <th>Album</th>
+                  <th>Artist</th>              
+                </tr></thead>
+                <tbody id="search-albums">
+                  <% _.each(r.albums, function(ab) { %>
+                      <tr data-uri=<%= ab.uri %>>
+                        <td><%= ab.name %></td>
+                        <td>
+                          <% _.each(ab.artists, function(a) { %> 
+                            <%= a.name %><br>
+                          <% }) %>
+                        </td>
+                      </tr>
+                  <%    }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+
+          <% if (r.tracks) { %>          
+            <div class="title">
+              <i class="dropdown icon"></i>
+              tracks
+            </div>
+            <div class="content">
+              <table data-type="tracks" class="ui table segment">
+                <thead>
+                  <tr><th>Track</th>
+                  <th>Artist</th>
+                  <th>Album</th>
+                </tr></thead>
+                <tbody id="search-tracks">
+                  <% _.each(r.tracks, function(t) { %>
+                      <tr data-uri=<%= t.uri %>>
+                        <td><%= t.name %></td>
+                        <td>
+                          <% _.each(t.artists, function(a) { %> 
+                            <%= a.name %><br>
+                            <% }) %>
+                        </td>
+                        <td><%= t.album.name %></td>
+                      </tr>
+                  <%    }) %>
+                </tbody>
+              </table>
+            </div>
+        <% } %>   
+        </div>
+      </div>
+    <%    }})} %>
+  </div>
 </script>
 
 
@@ -116,8 +242,7 @@
   <script type="text/javascript" src="assets/js/lib/backbone.js"></script>
   <script type="text/javascript" src="/mopidy/mopidy.js"></script>
   <script type="text/javascript" src="assets/js/lib/semantic.js"></script>  
-  <script type="text/javascript" src="assets/js/index.js"></script>  
-  <script type="text/javascript" src="assets/js/models/models.js"></script>  
+  <script type="text/javascript" src="assets/js/index.js"></script>
   <script type="text/javascript" src="assets/js/views/search.js"></script>
   <script type="text/javascript" src="assets/js/views/queue.js"></script>      
 

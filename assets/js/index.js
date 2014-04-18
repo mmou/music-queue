@@ -24,20 +24,10 @@ $(document).ready(function() {
 // refresh music queue
 var updateQueue = function() {
     mopidy.tracklist.getTlTracks().then(function(tlTracks) {
-        musicQueueView.collection.reset(
-            _.map(tlTracks, function(t){
-                return new TrackModel({
-                    tlid: t.tlid,
-                    uri: t.track.uri,
-                    title: t.track.name,
-                    artist: t.track.artists[0].name,
-                    album: t.track.album.name,
-                    length: t.track.length,
-                    timestamp: Date.now()      
-                });
+        $('#music-queue').html(
+            _.template($('#MusicQueueTemplate').html())({
+                tracks: tlTracks
             }));
-        musicQueueView.render();
-        controlsView.updateState();            
     });
 };
 
@@ -49,13 +39,13 @@ var updateState = function() {
             $('#state').removeClass('pause').addClass('play');
             if ($('#tracks tr:first').length > 0) {
                 var track = $('#tracks tr:first');
-                track.removeClass('active');
+                track.removeAttr('id', 'playing');
             }
         } else if (state == "paused") {
             $('#state').removeClass('pause').addClass('play');
         } else if (state =="playing") {
             var track = $('#tracks tr:first');
-            track.addClass('active');
+            track.attr('id', 'playing');
             $('#state').removeClass('play').addClass('pause');
         } 
     })
