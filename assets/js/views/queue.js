@@ -16,8 +16,8 @@ var ControlsView = Backbone.View.extend({
     },
 
     events: {
-//        "mouseenter #search": "hoverAddIcon",
-//        "mouseout #search": "hoverAddIcon",        
+        "mouseenter #search": "hoverAddIcon",
+        "mouseout #search": "hoverAddIcon",        
         "mouseenter #clear": "hoverClearIcon",
         "mouseout #clear": "hoverClearIcon",        
         "mouseenter .remove-track": "hoverInRemoveIcon",
